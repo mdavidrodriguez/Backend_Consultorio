@@ -1,10 +1,12 @@
 import express from "express"
 import servicesRoutes from './routes/servicesRoutes.js'
 import authRoutes from './routes/authRoutes.js'
+import appointmentsRoutes from './routes/appointmentRoutes.js'
 import { db } from './config/db.js'
 import colors from 'colors'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import userRoutes from './routes/useRoutes.js'
 
 // variables de entorno
 dotenv.config()
@@ -37,6 +39,8 @@ app.use(cors(corsOptions))
 
 app.use('/api/services', servicesRoutes)
 app.use('/api/auth', authRoutes)
+app.use('/api/appointments', appointmentsRoutes)
+app.use('/api/users', userRoutes)
 
 
 // definir puerto
