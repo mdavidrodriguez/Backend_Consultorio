@@ -24,3 +24,29 @@ export async function sendEmailVerification({ name, email, token }) {
     console.log('Mensaje enviado', info.messageId)
 
 }
+
+
+export async function sendEmailPasswordReset({ name, email, token }) {
+    const transporter = createTransport(
+        process.env.EMAIL_HOST,
+        process.env.EMAIL_PORT,
+        process.env.EMAIL_USER,
+        process.env.EMAIL_PASS
+    )
+
+    // Enviar email
+    const info = await transporter.sendMail({
+        from: 'Salon de belleza <salonTurbo@gmail.com>',
+        to: email,
+        subject: "SalonBelleza -  Restablece tu Passsword",
+        text: "Salon - Restablece tu Passsword",
+        html: `<p>Hola: ${name}, Has solicitado restablecer tu Password </p>
+        <p>sigue el siguiente enlace para generar un nuevo password: </p>
+        <a href="${process.env.FRONTEND_URL}/auth/olvide-password/${token}">Restablecer Password</a>
+        <p>Si tu no soliciatste esto, puedes omitir este mensaje</p>
+        `
+    })
+
+    console.log('Mensaje enviado', info.messageId)
+
+}
