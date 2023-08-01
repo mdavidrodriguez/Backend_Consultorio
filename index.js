@@ -20,22 +20,28 @@ app.use(express.json())
 db()
 
 // config cors
-const whitelist = [process.env.FRONTEND_URL]
+// const whitelist = [process.env.FRONTEND_URL]
 
-if (process.argv[2] === '--postman') {
-    whitelist.push(undefined)
-}
+// if (process.argv[2] === '--postman') {
+//     whitelist.push(undefined)
+// }
 
-const corsOptions = {
-    origin: function (origin, callback) {
-        if (whitelist.includes(origin)) {
-            callback(null, true)
-        } else {
-            callback(new Error('Error de cors'))
-        }
-    }
-}
-app.use(cors(corsOptions))
+// const corsOptions = {
+//     origin: function (origin, callback) {
+//         if (whitelist.includes(origin)) {
+//             callback(null, true)
+//         } else {
+//             callback(new Error('Error de cors'))
+//         }
+//     }
+// }
+// app.use(cors(corsOptions))
+app.use(
+    cors({
+      origin: "*",
+      methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    })
+  );
 
 app.use('/api/services', servicesRoutes)
 app.use('/api/auth', authRoutes)
