@@ -10,7 +10,7 @@ export async function sendEmailNewAppointment({ date, time }) {
     )
 
     const info = await transporter.sendMail({
-        from: 'Salon de belleza <citasturbo@gmail.com>',
+        from: 'Consultorio del Dr. Juan Velázquez ! <citasturbo@gmail.com>',
         to: 'rodriguez@gmail.com',
         subject: "SalonBelleza",
         text: "Salon - Nueva Cita",
@@ -30,7 +30,7 @@ export async function sendEmailUpdateAppointment({ date, time }) {
     )
 
     const info = await transporter.sendMail({
-        from: 'Salon de belleza <citasturbo@gmail.com>',
+        from: 'Consultorio del Dr. Juan Velázquez ! <citasturbo@gmail.com>',
         to: 'rodriguez@gmail.com',
         subject: "SalonBelleza - Cita Actualizada",
         text: "Salon - Cita Actualizada",
@@ -49,7 +49,7 @@ export async function sendEmailDeleteAppointment({ date, time }) {
     )
 
     const info = await transporter.sendMail({
-        from: 'Salon de belleza <citasturbo@gmail.com>',
+        from: 'Consultorio del Dr. Juan Velázquez ! <citasturbo@gmail.com>',
         to: 'rodriguez@gmail.com',
         subject: "SalonBelleza -  Cita Cancelada",
         text: "Salon - Cita Cancelada",

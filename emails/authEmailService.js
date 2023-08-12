@@ -10,11 +10,11 @@ export async function sendEmailVerification({ name, email, token }) {
 
     // Enviar email
     const info = await transporter.sendMail({
-        from: 'Salon de belleza <salonTurbo@gmail.com>',
+        from: 'Consultorio del Dr. Juan Velázquez ! <salonTurbo@gmail.com>',
         to: email,
         subject: "SalonBelleza",
         text: "Salon - Confirmar Cuenta",
-        html: `<p>Hola: ${name}, confirma tu cuenta en Salón de Belleza TURBO </p>
+        html: `<p>Hola: ${name}, confirma tu cuenta en Consultorio del Dr. Juan Velázquez </p>
         <p>Tu cuenta esta casi lista, solo debes confirmar en el siguiente enlace</p>
         <a href="${process.env.FRONTEND_URL}/auth/confirmar-cuenta/${token}">Confirmar Cuenta</a>
         <p>Si tu no creaste esta cuenta, puede omitir este mensaje</p>
@@ -36,7 +36,7 @@ export async function sendEmailPasswordReset({ name, email, token }) {
 
     // Enviar email
     const info = await transporter.sendMail({
-        from: 'Salon de belleza <salonTurbo@gmail.com>',
+        from: 'Consultorio del Dr. Juan Velázquez ! <salonTurbo@gmail.com>',
         to: email,
         subject: "SalonBelleza -  Restablece tu Passsword",
         text: "Salon - Restablece tu Passsword",
