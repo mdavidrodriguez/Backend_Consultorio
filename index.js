@@ -18,6 +18,7 @@ app.use(express.json())
 
 // conectar a mongo
 db()
+// services
 
 // config cors
 // const whitelist = [process.env.FRONTEND_URL]
