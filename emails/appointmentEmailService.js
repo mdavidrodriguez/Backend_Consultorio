@@ -7,7 +7,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export async function sendEmailNewAppointment({ date, time }) {
     const msg = {
-        to: 'rodriguez@gmail.com',
+        to: 'mdavidmontero6@gmail.com',
         from: 'mdavidrodriguez@unicesar.edu.co',
         subject: "SalonBelleza",
         text: "Salon - Nueva Cita",
