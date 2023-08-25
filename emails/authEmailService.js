@@ -8,20 +8,23 @@ export async function sendEmailVerification({ name, email, token }) {
         process.env.EMAIL_PASS
     )
 
-    // Enviar email
-    const info = await transporter.sendMail({
-        from: 'Consultorio del Dr. Juan Velázquez ! <salonTurbo@gmail.com>',
-        to: email,
+    const msg = {
+        to: email,  // Destinatario del correo
+        from: 'mdavidrodriguez@unicesar.edu.co',  // Remitente del correo (debe ser una dirección verificada en SendGrid)
         subject: "SalonBelleza",
         text: "Salon - Confirmar Cuenta",
         html: `<p>Hola: ${name}, confirma tu cuenta en Consultorio del Dr. Juan Velázquez </p>
         <p>Tu cuenta esta casi lista, solo debes confirmar en el siguiente enlace</p>
         <a href="${process.env.FRONTEND_URL}/auth/confirmar-cuenta/${token}">Confirmar Cuenta</a>
-        <p>Si tu no creaste esta cuenta, puede omitir este mensaje</p>
-        `
-    })
+        <p>Si tú no creaste esta cuenta, puedes omitir este mensaje</p>`
+    };
 
-    console.log('Mensaje enviado', info.messageId)
+    try {
+        await sgMail.send(msg);
+        console.log('Correo de verificación enviado con éxito');
+    } catch (error) {
+        console.error('Error al enviar el correo de verificación:', error);
+    }
 
 }
 
