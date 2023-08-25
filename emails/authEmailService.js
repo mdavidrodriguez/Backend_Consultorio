@@ -16,7 +16,7 @@ export async function sendEmailVerification({ name, email, token }) {
         text: "Salon - Confirmar Cuenta",
         html: `<p>Hola: ${name}, confirma tu cuenta en Consultorio del Dr. Juan Velázquez </p>
         <p>Tu cuenta esta casi lista, solo debes confirmar en el siguiente enlace</p>
-        <a href="https://odontologia-g72z.onrender.com/auth/confirmar-cuenta/${token}">Confirmar Cuenta</a>
+        <a href="${process.env.FRONTEND_URL}/auth/confirmar-cuenta/${token}">Confirmar Cuenta</a>
         <p>Si tu no creaste esta cuenta, puede omitir este mensaje</p>
         `
     })
