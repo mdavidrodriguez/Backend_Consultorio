@@ -1,4 +1,8 @@
 import { createTransport } from '../config/nodemailer.js'
+import sgMail from '@sendgrid/mail';
+
+// Configura la clave API de SendGrid
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export async function sendEmailVerification({ name, email, token }) {
     const transporter = createTransport(
@@ -38,9 +42,9 @@ export async function sendEmailPasswordReset({ name, email, token }) {
     )
 
     // Enviar email
-    const info = await transporter.sendMail({
-        from: 'Consultorio del Dr. Juan Velázquez ! <salonTurbo@gmail.com>',
+    const msg  = {
         to: email,
+        from: 'mdavidrodriguez@unicesar.edu.co',
         subject: "SalonBelleza -  Restablece tu Passsword",
         text: "Salon - Restablece tu Passsword",
         html: `<p>Hola: ${name}, Has solicitado restablecer tu Password </p>
@@ -48,8 +52,14 @@ export async function sendEmailPasswordReset({ name, email, token }) {
         <a href="${process.env.FRONTEND_URL}/auth/olvide-password/${token}">Restablecer Password</a>
         <p>Si tu no soliciatste esto, puedes omitir este mensaje</p>
         `
-    })
+    };
 
-    console.log('Mensaje enviado', info.messageId)
+    try {
+        await sgMail.send(msg);
+        console.log('Correo de verificación enviado con éxito');
+    } catch (error) {
+        console.error('Error al enviar el correo de verificación:', error);
+    }
+
 
 }
