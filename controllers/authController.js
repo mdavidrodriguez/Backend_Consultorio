@@ -17,10 +17,36 @@ const register = async (req, res) => {
         return res.status(400).json({ msg: error.message })
     }
 
+    // validacion de extension nombre
+    const MIN_NOMBRE_LENGHT = 3
+    const MAX_NOMBRE_LENGHT = 15
+    if (name.trim().length < MIN_NOMBRE_LENGHT ) {
+        const error = new Error(`El nombre debe contener minimo ${MIN_NOMBRE_LENGHT} caracteres`)
+        return res.status(400).json({ msg: error.message })
+    } else if (name.trim().length > MAX_NOMBRE_LENGHT) {
+        const error = new Error(`El nombre debe contener maximo ${MAX_NOMBRE_LENGHT} caracteres`)
+        return res.status(400).json({ msg: error.message })
+    }
+
+    // validacion extension del correo
+    const MIN_EMAIL_LENGHT = 10
+    const MAX_EMAIL_LENGHT = 50
+    if (email.trim().length < MIN_EMAIL_LENGHT) {
+        const error = new Error(`El email debe contener minimo ${MIN_EMAIL_LENGHT} caracteres`)
+        return res.status(400).json({ msg: error.message })
+    } else if (email.trim().length > MAX_EMAIL_LENGHT) {
+        const error = new Error(`El email debe contener maximo ${MAX_EMAIL_LENGHT} caracteres`)
+        return res.status(400).json({ msg: error.message })
+    }
+
     // Validar la extension del password
     const MIN_PASSWORD_LENGHT = 8
+    const MAX_PASSWORD_LENGHT = 20
     if (password.trim().length < MIN_PASSWORD_LENGHT) {
         const error = new Error(`El password debe contener ${MIN_PASSWORD_LENGHT} caracteres`)
+        return res.status(400).json({ msg: error.message })
+    } else if (password.trim().length > MAX_PASSWORD_LENGHT) {
+        const error = new Error(`El password debe contener maximo ${MAX_PASSWORD_LENGHT} caracteres`)
         return res.status(400).json({ msg: error.message })
     }
 
@@ -63,13 +89,41 @@ const verifyAccount = async (req, res) => {
 }
 
 const login = async (req, res) => {
+    // Valida todo los campos
+    if (Object.values(req.body).includes('')) {
+        const error = new Error('Todos los campos son obligatorios')
+        return res.status(400).json({ msg: error.message })
+    }
     const { email, password } = req.body
+
     // Revisar que el usuario exista
     const user = await User.findOne({ email })
     if (!user) {
         const error = new Error('El usuario no existe')
         return res.status(401).json({ msg: error.message })
     }
+    // validacion extension del correo
+    const MIN_EMAIL_LENGHT = 10
+    const MAX_EMAIL_LENGHT = 50
+    if (email.trim().length < MIN_EMAIL_LENGHT) {
+        const error = new Error(`El email debe contener minimo ${MIN_EMAIL_LENGHT} caracteres`)
+        return res.status(400).json({ msg: error.message })
+    } else if (email.trim().length > MAX_EMAIL_LENGHT) {
+        const error = new Error(`El email debe contener maximo ${MAX_EMAIL_LENGHT} caracteres`)
+        return res.status(400).json({ msg: error.message })
+    }
+
+    // Validar la extension del password
+    const MIN_PASSWORD_LENGHT = 8
+    const MAX_PASSWORD_LENGHT = 20
+    if (password.trim().length < MIN_PASSWORD_LENGHT) {
+        const error = new Error(`El password debe contener ${MIN_PASSWORD_LENGHT} caracteres`)
+        return res.status(400).json({ msg: error.message })
+    } else if (password.trim().length > MAX_PASSWORD_LENGHT) {
+        const error = new Error(`El password debe contener maximo ${MAX_PASSWORD_LENGHT} caracteres`)
+        return res.status(400).json({ msg: error.message })
+    }
+
     // Revisar si el usuario confirmo su cuenta
     if (!user.verified) {
         const error = new Error('Tu cuenta no ha sido confirmada aun')
@@ -86,13 +140,25 @@ const login = async (req, res) => {
         const error = new Error('El password es incorrecto')
         return res.status(401).json({ msg: error.message })
     }
+
 }
 
 const forgotPassword = async (req, res) => {
+    // validacion extension del correo
+    const MIN_EMAIL_LENGHT = 10
+    const MAX_EMAIL_LENGHT = 50
+    if (email.trim().length < MIN_EMAIL_LENGHT) {
+        const error = new Error(`El email debe contener minimo ${MIN_EMAIL_LENGHT} caracteres`)
+        return res.status(400).json({ msg: error.message })
+    } else if (email.trim().length > MAX_EMAIL_LENGHT) {
+        const error = new Error(`El email debe contener maximo ${MAX_EMAIL_LENGHT} caracteres`)
+        return res.status(400).json({ msg: error.message })
+    }
     const { email } = req.body
 
     // Comprobar si existe el usuario
     const user = await User.findOne({ email })
+
     if (!user) {
         const error = new Error('El Usuario no existe')
         return res.status(404).json({ msg: error.message })
@@ -136,6 +202,15 @@ const updatePassword = async (req, res) => {
         return res.status(400).json({ msg: error.message })
     }
     try {
+        const MIN_PASSWORD_LENGHT = 8
+        const MAX_PASSWORD_LENGHT = 20
+        if (password.trim().length < MIN_PASSWORD_LENGHT) {
+            const error = new Error(`El password debe contener ${MIN_PASSWORD_LENGHT} caracteres`)
+            return res.status(400).json({ msg: error.message })
+        } else if (password.trim().length > MAX_PASSWORD_LENGHT) {
+            const error = new Error(`El password debe contener maximo ${MAX_PASSWORD_LENGHT} caracteres`)
+            return res.status(400).json({ msg: error.message })
+        }
         const { password } = req.body
         user.token = ''
         user.password = password

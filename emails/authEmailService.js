@@ -1,16 +1,9 @@
-import { createTransport } from '../config/nodemailer.js'
 import sgMail from '@sendgrid/mail';
 
 // Configura la clave API de SendGrid
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export async function sendEmailVerification({ name, email, token }) {
-    const transporter = createTransport(
-        process.env.EMAIL_HOST,
-        process.env.EMAIL_PORT,
-        process.env.EMAIL_USER,
-        process.env.EMAIL_PASS
-    )
 
     const msg = {
         to: email,  // Destinatario del correo
@@ -34,12 +27,6 @@ export async function sendEmailVerification({ name, email, token }) {
 
 
 export async function sendEmailPasswordReset({ name, email, token }) {
-    const transporter = createTransport(
-        process.env.EMAIL_HOST,
-        process.env.EMAIL_PORT,
-        process.env.EMAIL_USER,
-        process.env.EMAIL_PASS
-    )
 
     // Enviar email
     const msg  = {

@@ -1,4 +1,3 @@
-import { createTransport } from '../config/nodemailer.js'
 import sgMail from '@sendgrid/mail';
 
 // Configura la clave API de SendGrid
@@ -27,12 +26,7 @@ export async function sendEmailNewAppointment({ date, time }) {
 
 
 export async function sendEmailUpdateAppointment({ date, time }) {
-    const transporter = createTransport(
-        process.env.EMAIL_HOST,
-        process.env.EMAIL_PORT,
-        process.env.EMAIL_USER,
-        process.env.EMAIL_PASS
-    )
+  
 
     const msg  = {
         to: 'mdavidmontero6@gmail.com',
@@ -51,13 +45,7 @@ export async function sendEmailUpdateAppointment({ date, time }) {
 }
 
 export async function sendEmailDeleteAppointment({ date, time }) {
-    const transporter = createTransport(
-        process.env.EMAIL_HOST,
-        process.env.EMAIL_PORT,
-        process.env.EMAIL_USER,
-        process.env.EMAIL_PASS
-    )
-
+   
     const msg  = {
         to: 'mdavidmontero6@gmail.com',
         from: 'mdavidrodriguez@unicesar.edu.co',

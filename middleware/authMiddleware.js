@@ -9,6 +9,8 @@ const authMiddleware = async (req, res, next) => {
             req.user = await User.findById(decoded.id).select(
                 "-password -verified -token -__v"
             )
+             // Almacena el nombre del usuario en la solicitud
+             req.username = req.user.name;
             next()
         } catch {
             const error = new Error('Token no valido')
