@@ -7,7 +7,7 @@ import colors from 'colors'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import morganBody from 'morgan-body';
-import {loggerStream} from './utils/handleLogger.js'
+import { loggerStream } from './utils/handleLogger.js'
 import userRoutes from './routes/useRoutes.js'
 import axios from "axios";
 
@@ -17,6 +17,8 @@ dotenv.config()
 
 // configurar la app
 const app = express()
+
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
 app.use(express.json())
 
@@ -37,8 +39,8 @@ morganBody(app, {
     return res.statusCode < 400
   },
   stream: loggerStream,
-  
- 
+
+
 });
 async function enviarMensajeTelegram(message) {
   try {
@@ -49,9 +51,10 @@ async function enviarMensajeTelegram(message) {
         text: message,
       }
     );
-    console.log("Mensaje enviado a Telegram:", response.data);
+    // console.log("Mensaje enviado a Telegram:", response.data);
   } catch (error) {
-    console.error("Error al enviar el mensaje a Telegram:", error);
+    // console.error("Error al enviar el mensaje a Telegram:", error);
+    console.log(error);
   }
 }
 app.use((req, res, next) => {
@@ -64,8 +67,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
 app.use('/api/services', servicesRoutes)
 app.use('/api/auth', authRoutes)
 app.use('/api/appointments', appointmentsRoutes)
@@ -73,10 +74,14 @@ app.use('/api/users', userRoutes)
 
 
 // definir puerto
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 4000;
 
 // arrancar la app
+// if (NODE_ENV !== 'test') {
+//   app.listen(PORT)
+// }
 app.listen(PORT, () => {
   console.log(colors.blue.bgMagenta.bold('El servidor se esta ejecutando en el puerto', PORT))
 })
 
+// export default app

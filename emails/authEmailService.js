@@ -1,10 +1,6 @@
 import sgMail from '@sendgrid/mail';
-
-// Configura la clave API de SendGrid
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
 export async function sendEmailVerification({ name, email, token }) {
-
     const msg = {
         to: email,  // Destinatario del correo
         from: 'mdavidrodriguez@unicesar.edu.co',  // Remitente del correo (debe ser una dirección verificada en SendGrid)

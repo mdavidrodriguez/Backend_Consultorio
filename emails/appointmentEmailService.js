@@ -1,9 +1,5 @@
 import sgMail from '@sendgrid/mail';
-
-// Configura la clave API de SendGrid
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-
 export async function sendEmailNewAppointment({ date, time }) {
     const msg = {
         to: 'mdavidmontero6@gmail.com',
@@ -21,13 +17,8 @@ export async function sendEmailNewAppointment({ date, time }) {
     }
 }
 
-// Las otras funciones (sendEmailUpdateAppointment, sendEmailDeleteAppointment) se modifican de manera similar.
-
-
 
 export async function sendEmailUpdateAppointment({ date, time }) {
-  
-
     const msg  = {
         to: 'mdavidmontero6@gmail.com',
         from: 'mdavidrodriguez@unicesar.edu.co',

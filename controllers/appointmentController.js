@@ -107,36 +107,48 @@ const updateAppointment = async (req, res) => {
 
 const deleteAppointment = async (req, res) => {
     const { id } = req.params
-
+    const isAdmin = req.user.admin;
     // Validar por objectId
     if (validateObjectId(id, res)) return
-
     // Validar que exista
     const appointment = await Appointment.findById(id).populate('services')
     if (!appointment) {
         return handleNotFoundError('La Cita no existe', res)
     }
-
-    if (appointment.user.toString() !== req.user._id.toString()) {
-        const error = new Error('No tiene los permisos')
-        return res.status(403).json({ msg: error.message })
-    }
-
-    try {
-        const result = await appointment.deleteOne()
-        res.json({ msg: 'Cita cancelada correctamente' })
-
-        await sendEmailDeleteAppointment(
-            {
-                date: formatDate(result.date),
-                time: new Date().toLocaleTimeString()
-            }
-        )
-    } catch (error) {
-        console.log(error);
+    // Verificar si el usuario es administrador
+    if (isAdmin) {
+        try {
+            const result = await appointment.deleteOne()
+            res.json({ msg: 'Cita cancelada correctamente' })
+            await sendEmailDeleteAppointment(
+                {
+                    date: formatDate(result.date),
+                    time: new Date().toLocaleTimeString()
+                }
+            )
+        } catch (error) {
+            console.log(error);
+        }
+    } else {
+        // Verificar si el usuario que intenta eliminar la cita es el mismo que la reservó
+        if (appointment.user.toString() !== req.user._id.toString()) {
+            const error = new Error('No tiene los permisos')
+            return res.status(403).json({ msg: error.message })
+        }
+        try {
+            const result = await appointment.deleteOne()
+            res.json({ msg: 'Cita cancelada correctamente' })
+            await sendEmailDeleteAppointment(
+                {
+                    date: formatDate(result.date),
+                    time: new Date().toLocaleTimeString()
+                }
+            )
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
-
 
 export {
     createAppointment,
